@@ -1,16 +1,6 @@
-# This is a sample Python script.
+# pip install psutil
+import psutil
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+cpu = psutil.cpu_percent() # Вывод работы процессора
+memory_my = psutil.virtual_memory() # Вывод работы оперативной памяти
+print('\nВывод процессора -', cpu, '\nВывод памяти -', memory_my)
