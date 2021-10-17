@@ -1,8 +1,8 @@
 # pip install psutil
 import psutil
 import time
-global timenumber
-timenumber=int(input())
+
+interval_time = float(input('Введите интервал выполнения:'))
 
 
 def executeSomething():
@@ -11,7 +11,7 @@ def executeSomething():
     private_bytes = psutil.virtual_memory().percent # Вывод работы оперативной памяти
     #for proc in psutil.process_iter(['pid', 'name', 'username']):
     print("\nЗагрузка процессора - {}% \nИспользование памяти - {} \nПамять - {}%".format(cpu, working_set, private_bytes))
-    time.sleep(timenumber)
+    time.sleep(interval_time)
 
 while True:
     executeSomething()
