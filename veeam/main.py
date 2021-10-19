@@ -74,11 +74,8 @@ class st(threading.Thread):
                 cpu, working_set, private_bytes, handle
             )
         )
-        number = values["-INPUT-"]
 
-        time.sleep(int(number))
-        while True:
-            executeSomething()
+
 
 
 thread0 = win('Thread0', 0)
