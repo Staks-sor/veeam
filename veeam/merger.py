@@ -5,8 +5,9 @@ import psutil
 import win32api
 import win32con
 import datetime
-import json
 import ctypes
+import base64
+
 
 if sys.platform.startswith("win"):
 
@@ -40,15 +41,10 @@ def executeSomething():
     working_set = psutil.virtual_memory().percent  # Вывод работы оперативной памяти
     handle = psutil.Process().pid
     current_time = datetime.datetime.now().strftime("%F %T")
-    log_str = "|---------------------|---------- |-----------------|-----------------|-----------------------------|\n"
-    log_str += "|---------time--------|----cpu----|--private_bytes--|---working_set---|-------------handle----------|\n"
+    log_str = " time            {}\n cpu             {}%\n private_bytes   {}\n working_set     {}%\n handle          {}\n".format(current_time, cpu, private_bytes, working_set, handle)
 
-    log_str += (
-        "| %s |   %s%%    |   %s   |%s%%            | %s                       |\n"
-        % (current_time, cpu, private_bytes, working_set, handle)
-    )
-    print(log_str)
-    f = open("log.json", "a")  # Новый log.txt
+
+    f = open("log.txt", "a")  # Новый log.txt
     f.write(log_str + "\n\n")  # Написать информацию
     f.close()
 
