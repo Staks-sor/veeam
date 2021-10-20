@@ -24,16 +24,18 @@ class win(threading.Thread):
         self.name = name
         self.counter = counter
 
+
     def run(self):
 
         layout = [
             [
-                sg.Text("Введите интервал проверки в секундах"),
-                sg.InputText(key="-INPUT-", size=(10, 10)),
+                sg.Text("Введите интервал проверки в секундах", key='-IN-'),
+                sg.InputText(key='-INS-', size=(10, 10)),
             ],
             [sg.Output(size=(88, 20))],
             [sg.Submit("Начать"), sg.Exit("закрыть")],
         ]
+
 
         window = sg.Window(
             "Test exercise",
@@ -42,25 +44,29 @@ class win(threading.Thread):
             finalize=True,
             icon="C:/Users/stass/OneDrive/Pictures/Thesquid.ink-Free-Flat-Sample-Space-rocket.ico",
         )
+
+
         while True:
             event, values = window.Read()
             if event in (None, "Exit", "закрыть"):
                 break
+
             if event == "Начать":
                 thread1 = st("Thread1", 1)
                 thread1.start()
 
-class st(threading.Thread):
-    def __init__(self, name, counter):
-        threading.Thread.__init__(self)
-        self.threadID = counter
-        self.name = name
-        self.counter = counter
+
+
+
+
+
+
+
+class st(win):
 
     def run(self):
 
         while True:
-            time.sleep()
             cpu = psutil.cpu_percent(interval=1)  # Вывод загрузки процессора в роцентах
             private_bytes = (
                 psutil.virtual_memory().used
@@ -85,5 +91,7 @@ class st(threading.Thread):
             )
 
 
+            time.sleep(int(2))
 thread0 = win("Thread0", 0)
 thread0.start()
+window.close()
