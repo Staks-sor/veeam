@@ -6,6 +6,8 @@ import typing
 import json
 import PySimpleGUI as sg
 import psutil
+import os
+import sys
 
 
 @dataclasses.dataclass
@@ -34,7 +36,8 @@ def get_system_info() -> SystemInfo:
         "pid": pid,
         "current_time": current_time,
     }
-    with open("data.json", "a") as data_file:
+
+    with open("log/data.json", "a") as data_file:
         json.dump(metrics_data, data_file, indent=2)
 
 
@@ -50,7 +53,7 @@ class MainWindow(sg.Window):
             [self.output],
             [self.start, self.exit],
         ]
-        super().__init__("Test exercise", self.layout, resizable=False, finalize=True)
+        super().__init__("Test exercise", self.layout, resizable=True, finalize=True, icon="C:/Users/stass/OneDrive/Documents/python/veeam/vvv/image/logo.ico")
         self.thread = None
         self.thread_canceled = False
 
