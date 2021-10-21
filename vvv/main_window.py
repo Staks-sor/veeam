@@ -18,22 +18,24 @@ class SystemInfo:
 
 
 def get_system_info() -> SystemInfo:
-    cpu = psutil.cpu_percent(interval=1)  # Вывод загрузки процессора в роцентах
-    private_bytes = psutil.virtual_memory().used  # Вывод работы оперативной памяти
-    working_set = psutil.virtual_memory().percent  # Вывод работы оперативной памяти
+    cpu = psutil.cpu_percent(interval=1)
+    private_bytes = psutil.virtual_memory().used
+    working_set = psutil.virtual_memory().percent
     pid = psutil.Process().pid
     current_time = datetime.datetime.now().strftime("%F %T")
-    print(cpu, private_bytes, working_set, pid, current_time)
+    log_str = " cpu               {}%\n private_bytes   {}\n working_set     {}%\n pid          {}\n current_time            {}".format(
+        cpu, private_bytes, working_set, pid, current_time
+    )
+    print(log_str)
     metrics_data = {
         "cpu": cpu,
         "private_bytes": private_bytes,
         "working_set": working_set,
         "pid": pid,
-        "current_time": current_time
+        "current_time": current_time,
     }
     with open("data.json", "a") as data_file:
         json.dump(metrics_data, data_file, indent=2)
-
 
 
 class MainWindow(sg.Window):
@@ -48,11 +50,7 @@ class MainWindow(sg.Window):
             [self.output],
             [self.start, self.exit],
         ]
-        super().__init__("Test exercise",
-                         self.layout,
-                         resizable=False,
-                         finalize=True
-                         )
+        super().__init__("Test exercise", self.layout, resizable=False, finalize=True)
         self.thread = None
         self.thread_canceled = False
 
@@ -61,13 +59,16 @@ class MainWindow(sg.Window):
             while True:
                 time.sleep(sleep_interval)
                 info: SystemInfo = get_system_info()
-                window.write_event_value('-THREAD-', info)
+                window.write_event_value("-THREAD-", info)
+
         try:
             interval = int(self.input_text.get())
-            self.thread = threading.Thread(target=thread_function, args=(self, interval), daemon=True)
+            self.thread = threading.Thread(
+                target=thread_function, args=(self, interval), daemon=True
+            )
             self.thread.start()
         except ValueError:
-            print('Значание должно быть числом')
+            print("Значание должно быть числом")
 
     def event_loop(self):
         while True:
@@ -76,5 +77,5 @@ class MainWindow(sg.Window):
                 return
             elif event == "Начать":
                 self.on_start_button()
-            elif event == '-THREAD-':
-                print('Got a message back from the thread: ', values[event])
+            elif event == "-THREAD-":
+                pass
